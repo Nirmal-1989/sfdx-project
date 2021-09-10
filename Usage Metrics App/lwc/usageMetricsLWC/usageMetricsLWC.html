@@ -1,0 +1,89 @@
+<template>
+  <lightning-card>
+    <div class="slds-m-around_medium">
+        <lightning-spinner alternative-text="Loading..." 
+        size="large" variant="brand" if:true={isSpinnerLoaded}></lightning-spinner>
+
+        <lightning-formatted-text value="View Usage Metrics for:" style="margin-left: 20px;"></lightning-formatted-text> 
+
+        <lightning-combobox  value={chartTypeValue} placeholder="Select data to be shown..." 
+          options={chartTypeOptions} onchange={storeChartValue} 
+          style="display: inline-block; width: 25%; margin-left: 10px;" > 
+        </lightning-combobox>
+      
+      <lightning-layout horizontal-align="space" >    
+        <lightning-layout-item padding="around-small">
+          <div class="slds-m-vertical_medium" style="width: 125%;">
+            <lightning-input  type="radio"  name="OrgOptions" checked
+              data-key="All Orgs" onchange={storeOrgSelection}></lightning-input>
+            <lightning-combobox label="All Orgs" value={allOrgValue} placeholder="Select Org Status..." 
+              options={allOrgOptions} onchange={storeAllOrgValue} >
+            </lightning-combobox>
+          </div>               
+          <div class="slds-m-vertical_medium" style="width: 125%;">
+              <lightning-combobox label="App" value={appValue} placeholder="Select an app..." 
+              options={appOptions} onchange={storeAppValue} required>
+              </lightning-combobox>
+          </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item padding="around-small">
+          <div class="slds-m-vertical_medium" style="width: 125%;">
+            <lightning-input  type="radio"   name="OrgOptions"
+                data-key="Single Org" onchange={storeOrgSelection}></lightning-input>
+            <lightning-input label="Single Org" type="text" placeholder="Org Id..." 
+              value={singleOrgValue}  onchange={storeSingleOrgValue}  >
+            </lightning-input>
+          </div>                             
+          <div class="slds-m-vertical_medium" style="width: 125%;">
+            <lightning-input type="date" label="Start Interval" placeholder="select start duration date..." 
+              value={metricsStartDate} onchange={storeStartDateValue} max={todayDate} required>
+            </lightning-input>
+          </div>   
+        </lightning-layout-item>
+
+        <lightning-layout-item padding="around-small">
+          <div class="slds-m-vertical_medium" style="width: 125%;">
+            <lightning-input  type="radio"   name="OrgOptions" 
+              data-key="Org Name" onchange={storeOrgSelection} >
+            </lightning-input>
+            <c-orgcustomlookup onautopopulateevent={handleAutopopulateEvent} ></c-orgcustomlookup>
+          </div> 
+          <div class="slds-m-vertical_medium" style="width: 125%;">
+            <lightning-input type="date" label="End Interval" placeholder="select end duration date..." 
+              value={metricsEndDate} onchange={storeEndDateValue} max={todayDate}  required>
+            </lightning-input>
+          </div> 
+        </lightning-layout-item>         
+      </lightning-layout>
+      
+      <lightning-input type="toggle" label="Display Chart"  checked 
+          onchange ={toggleChartDisplay} style="margin-left: 20px;">      
+      </lightning-input>
+      <br>
+      <lightning-button variant="brand" label="View Metrics" class="slds-m-left_x-small" 
+              onclick={submitMetricsData} style="margin-left: 20px;">
+      </lightning-button>
+    </div>
+
+    <div  if:true= {showData}>
+      <br/> <br/>
+      <div slot="footer">
+        <div if:true= {showChart}>
+          <div class="slds-grid slds-wrap slds-grid--pull-padded" >
+            <div  class="slds-col--padded slds-size--1-of-1">
+                  <canvas class="linechart" lwc:dom="manual"></canvas>
+            </div>       
+          </div>     
+            <br/><br/> <br/>
+        </div>
+        <lightning-datatable key-field="id" columns={columns} data={data}
+          hide-checkbox-column default-sort-direction={defaultSortDirection} 
+          sorted-direction={sortDirection} sorted-by={sortedBy} onsort={onHandleSort}>
+        </lightning-datatable>
+        <br/><br/> <br/>
+      </div>
+    </div>
+  </lightning-card>
+  <br/>
+</template>

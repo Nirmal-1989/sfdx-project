@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "c/firstAidList": [
+                "firstAidList/firstAidList.js"
+            ],
+            "c/hospitalList": [
+                "hospitalList/hospitalList.js"
+            ],
+            "c/omniHospitalHome": [
+                "omniHospitalHome/omniHospitalHome.js"
+            ]
+        }
+    },
+    "include": [
+        "**/*",
+        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}

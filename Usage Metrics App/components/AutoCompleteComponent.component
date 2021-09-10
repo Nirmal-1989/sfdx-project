@@ -1,0 +1,49 @@
+<apex:component controller="AutoCompleteComponentController">
+<apex:stylesheet value="{!URLFOR($Resource.SLDS0103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+<apex:stylesheet value="{!URLFOR($Resource.Autocomplete,'/Autocomplete/jquery-ui.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Autocomplete,'/Autocomplete/jquery-1.12.4.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Autocomplete,'/Autocomplete/jquery-ui.js')}"/>
+
+ <input  id="accountSearch" value="{!searchTerm}" /> 
+         
+ <!-- accountSearch -->
+    
+    <script>
+        $(function(){  
+            $("#accountSearch").autocomplete({  
+               minLength: 2,  
+               source: function(request, response){  
+                    var searchString = request.term;  
+                    AutoCompleteComponentController.getSearchSuggestions(searchString, function(result, event){  
+                        console.log(' result= '+result) ; 
+                        console.log(' event= '+event) ; 
+                         if(event.status){  
+                              if(typeof result === 'undefined' || result.length <=0){  
+                                   response(['No Record Found']);  
+                              }else {  
+                                   response(result);  
+                              }  
+                         }else {  
+                              response([]);  
+                         }  
+                    },  
+                    {escape: true}  
+                    ); 
+                    
+               },  
+               select: function(event, ui){  
+                    if(ui.item.label != 'No Record Found'){  
+                        $("#accountSearch").val(ui.item.label);
+                        showAccountDetail(ui.item.value); 
+                    }  
+                    return false;  
+               },  
+               focus: function( event, ui ) {  
+                    $("#accountSearch").val(ui.item.label);  
+                    console.log(' value= '+ui.item.label) ;
+                    return false;  
+               }  
+           });  
+  });  
+  </script>
+</apex:component>

@@ -1,0 +1,46 @@
+<apex:page >
+  
+  <html>
+  <head>
+  <script src="https://xyz.api.here.com/maps/latest/xyz-maps-common.min.js" type="text/javascript" charset="UTF-8" ></script>
+  <script src="https://xyz.api.here.com/maps/latest/xyz-maps-core.min.js" type="text/javascript" charset="UTF-8" ></script>
+  <script src="https://xyz.api.here.com/maps/latest/xyz-maps-display.min.js" type="text/javascript" charset="UTF-8" ></script>
+  
+  <script src="https://xyz.api.here.com/maps/latest/xyz-maps-plugins.min.js" type="text/javascript" charset="UTF-8" ></script>
+  </head>
+  
+    <body>
+  <div style="width: 960px; height: 540px" id="map"></div>
+  </body>
+  
+  
+  <script type="application/javascript">
+  //specify your credentials to spaces
+  var YOUR_ACCESS_TOKEN = "AGB8F0bkRSWS4W1zUXu7lAA"; // <--- TODO: Replace this with your token
+    
+  // configure layers
+  var layers = [
+          new here.xyz.maps.layers.TileLayer({
+          name: 'Image Layer',
+                min: 1,
+                max: 20,
+                provider: new here.xyz.maps.providers.ImageProvider({
+            name: 'Live Map',
+              url : 'https://{SUBDOMAIN_INT_1_4}.mapcreator.tilehub.api.here.com/tilehub/wv_livemap_bc/png/sat/256/{QUADKEY}?access_token='+YOUR_ACCESS_TOKEN
+          })
+    })
+  ]
+  
+    // setup the Map Display
+  window.display = new  here.xyz.maps.Map( document.getElementById("map"), {
+      zoomLevel : 17,
+      center: {
+          longitude: -117.15406, latitude: 32.72966
+      },
+      // add layers to display
+      layers: layers
+  });
+</script>
+  </html>
+
+</apex:page>

@@ -1,0 +1,11 @@
+<apex:page controller="AutoCompleteComponentController">
+    <!--<apex:actionFunction name="showInfoForAccount" action="{!showAccountDetail}" reRender="form">  
+                     <apex:param assignTo="{!selectedAccountId}" name="selectedAccountId" value=""/>   
+            </apex:actionFunction>-->
+    <script>
+         function showAccountDetail( accountId){
+            console.log(' accountId '+accountId);
+         }
+    </script>        
+    <c:AutoCompleteComponent />
+</apex:page>

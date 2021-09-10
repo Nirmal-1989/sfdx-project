@@ -1,0 +1,61 @@
+<apex:page >
+<head>
+
+        <apex:stylesheet value="{!URLFOR($Resource.SLDS0103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+        <script src="{!URLFOR($Resource.aljs_jQuery, '/jquery.aljs-init.min.js')}"></script>
+        <script src="{!URLFOR($Resource.aljs_jQuery, '/jquery.aljs-datepicker.min.js')}"></script>
+
+    </head>
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ 
+<div class="slds">
+ <div class="slds-form-element slds-lookup" data-select="single" data-scope="single">
+            <label class="slds-form-element__label" for="lookup-01">Objects</label>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                <svg aria-hidden="true" class="slds-input__icon slds-icon-text-default">
+                    <use xlink:href="assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                </svg>
+                <input id="lookup-01" class="slds-lookup__search-input slds-input" type="text" aria-autocomplete="list" role="combobox" aria-expanded="false" aria-activedescendant="" placeholder="Search Objects" />
+            </div>
+        </div>
+<!--<span id="SelectedDate"></span> -->
+</div>
+ 
+<script>
+var j$ = jQuery.noConflict();
+       
+j$.aljsInit({
+  assetsLocation: '{!URLFOR($Resource.SLDS0103)}', //SLDS Static Resource Path
+  scoped: true
+});
+   
+j$(document).ready(function() {
+j$('#lookup-01').lookup({
+                items: [
+                    {
+                        id: 'result-1',
+                        label: 'Result 1',
+                        metaLabel: 'Optional meta description'
+                    },
+                    {
+                        id: 'result-2',
+                        label: 'Result 2',
+                        metaLabel: 'Optional meta description'
+                    },
+                    {
+                        id: 'result-3',
+                        label: 'Result 3',
+                        metaLabel: 'Optional meta description'
+                    },
+                    {
+                        id: 'result-4',
+                        label: 'Result 4',
+                        metaLabel: 'Optional meta description'
+                    }
+                ]});
+});
+</script>
+  </html>
+</apex:page>

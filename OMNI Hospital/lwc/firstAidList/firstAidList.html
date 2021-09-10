@@ -1,0 +1,19 @@
+<template>      
+  <div class="slds-card__body slds-card__body_inner">
+    <lightning-input type="search"  label="Search"   onchange={searchFirsAids} 
+    placeholder="type keyword here..." >
+    </lightning-input>
+
+    <lightning-accordion class="example-accordion" allow-multiple-sections-open >
+      <template for:each={firstAids} for:item="firstAid">
+        <lightning-accordion-section  key={firstAid.Id} name={firstAid.Id} label={firstAid.Name} >
+         
+          <lightning-formatted-rich-text value={firstAid.Procedure__c}>
+          </lightning-formatted-rich-text>
+                                            
+        </lightning-accordion-section>
+    
+      </template>    
+    </lightning-accordion>
+  </div>
+</template>

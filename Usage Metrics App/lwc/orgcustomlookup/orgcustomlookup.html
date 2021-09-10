@@ -1,0 +1,94 @@
+<template> 
+    
+    <div class="slds-form-element">
+        
+        <label class="slds-form-element__label" for="combobox-id-3" >{orgSearchLabel}</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                    aria-expanded="false" aria-haspopup="listbox" role="combobox" >
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                        role="none" >                     
+                        <div class="selectedOption slds-hide">
+                            <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" >
+                                <lightning-icon icon-name="standard:account" alternative-text="account" size="x-small">
+                                </lightning-icon>
+                            </span> 
+                            <input
+                                type="text" class="slds-input slds-combobox__input slds-combobox__input-value search-result_left-pad"
+                                id="combobox-id-5" aria-controls="listbox-id-5" autocomplete="off"
+                                role="textbox" placeholder="Select an Option" readonly
+                                value={selectedOrg} />
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" >
+                                <lightning-icon icon-name="utility:close" alternative-text="close" 
+                                    size="x-small"  onclick={handleRemoveSelectedOption} >
+                                </lightning-icon>  
+                            </button>
+                        </div>
+                     
+                        <div class="defaultClass">
+                            <lightning-spinner alternative-text="Loading..." 
+                                                size="small" variant="brand" if:true={isAutoSearchLoaded}>
+                                            </lightning-spinner>
+                            <input type="text" class="slds-input slds-combobox__input slds-has-focus"
+                                id="combobox-id-3" aria-activedescendant="option1"
+                                aria-autocomplete="list" aria-controls="listbox-id-3"
+                                autocomplete="off" role="textbox" readonly={isAutoSearchLoaded}
+                                placeholder="Search..." onkeyup={handleKeyUp} value={search} />    
+                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                <lightning-icon icon-name="utility:search" alternative-text="Approved" size="x-small">                                 
+                                </lightning-icon>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="listbox-id-3" role="listbox"
+                        class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid orgs_list slds-hide">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation" >
+                            <li role="presentation" class="slds-listbox__item">
+                                <div aria-selected="true" id="option0" role="option"
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus">
+                                    <span class="slds-media__figure slds-listbox__option-icon" >
+                                        <span class="slds-icon_container slds-icon-utility-search" >
+                                            <lightning-icon icon-name="utility:search" alternative-text="search" size="x-small">
+                                            </lightning-icon>                           
+                                        </span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                            style="white-space: pre-line;">
+                                            {search}
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                            
+                            <template for:each={orgList} for:item="org">
+                                <li role="presentation" class="slds-listbox__item" key={org.orgId}
+                                    onclick={handleOptionSelect} data-id={org.orgId} 
+                                    data-name={org.orgName}>
+                                    <div aria-selected="true" id={org.orgId}
+                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                        role="option" tabindex="0">
+                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                            <span class="slds-icon_container slds-icon-standard-account">
+                                                <lightning-icon icon-name="standard:account" 
+                                                    alternative-text="Account" small="x-small">
+                                                </lightning-icon>
+                                            </span>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                                style="white-space: pre-line;">
+                                                {org.orgName}
+                                            </span> 
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

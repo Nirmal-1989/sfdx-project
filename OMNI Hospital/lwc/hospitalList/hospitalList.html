@@ -1,0 +1,144 @@
+<template>
+   
+    <lightning-combobox label="City" value={currentCity} placeholder="Select City" options={cityOptions}
+    onchange={filterHospitals} >
+    </lightning-combobox>
+    <lightning-accordion class="example-accordion" allow-multiple-sections-open >       
+       <template for:each={hospitals} for:item="hospital">
+            <lightning-accordion-section  key={hospital.recordId} name={hospital.recordId} label={hospital.name} >
+                <lightning-tabset>
+                    <lightning-tab label="About Us">
+                        <lightning-formatted-rich-text value={hospital.description} >
+                        </lightning-formatted-rich-text>    
+                    </lightning-tab>
+                    <lightning-tab label="Gallery">
+                        <div class="slds-size_2-of-4">
+                        <lightning-carousel disable-auto-scroll>
+                            <template for:each={hospital.imageWrapper.imageList} for:item="imageURL">
+                            <lightning-carousel-image key={imageURL}
+                                src ={imageURL}>
+                            </lightning-carousel-image> 
+                            </template>    
+                        </lightning-carousel>
+                        </div>
+                    </lightning-tab>
+                    <lightning-tab label="Locate Us" data-key={hospital.recordId} 
+                    onactive={fetchDistanceDurationToHospital}>
+                        <div  class="slds-size_4-of-4" style="overflow:overlay;">                       
+                            <div  style="float:right;" class="slds-size_1-of-4">
+                                <b>Route Instructions: </b> 
+                                <br/> 
+                                <lightning-formatted-rich-text 
+                                value={hospital.routeInstructionDetail} ></lightning-formatted-rich-text>
+                                </div>
+                            <div  class="slds-size_3-of-4">
+                                <b>Route Summary (Car):   </b> <lightning-formatted-rich-text 
+                            value={hospital.durationDetail} ></lightning-formatted-rich-text>
+                            <lightning-button label="Navigate"  data-key={hospital.recordId} 
+                                style="margin-left: 20px;vertical-align: inherit;"  
+                                onclick={fetchDistanceDurationToHospital}>
+                            </lightning-button>
+                            <br/> <br/>
+                            <lightning-map map-markers={hospital.mapMarkers}>
+                            </lightning-map>
+                            </div>                      
+                        </div>   
+                    </lightning-tab>
+
+                    <lightning-tab label="Review">
+                        <b>
+                            Customer Reviews ({hospital.feedbackCount} Reviews)
+                        </b>
+                        <br> 
+                        <div if:true={hospital.hasFeedbacks}>                             
+                            {hospital.overallRating} out of 5
+                            <div class="stars"> 
+                                <template for:each={hospital.integerRatingList} for:item="starOn">
+                                    <span key={starOn} class="star on"></span>            
+                                </template>
+                                <template for:each={hospital.halfRatingList} for:item="starHalf">
+                                    <span key={starHalf} class="star half"></span>            
+                                </template>
+                                <template for:each={hospital.emptyRatingList} for:item="star">
+                                    <span key={star} class="star"></span>
+                                </template>                          
+                            </div>
+                            <div class="slds-m-top_medium slds-m-bottom_x-large">
+                                <div class="slds-p-around_medium lgc-bg">
+                                    <ul class="slds-has-dividers_bottom-space">
+                                        <template for:each={hospital.feedbacks} for:item="feedback">
+                                            <li key={feedback.recordId} class="slds-item">
+                                                <lightning-tile  type="media">
+                                                    <lightning-formatted-text value={feedback.userName}>
+                                                    </lightning-formatted-text>
+                                                    <div class="stars"> 
+                                                        <template for:each={feedback.integerRatingList} for:item="starOn">
+                                                            <span key={starOn} class="star on"></span>            
+                                                        </template>
+                                                        <template for:each={feedback.halfRatingList} for:item="starHalf">
+                                                            <span key={starHalf} class="star half"></span>            
+                                                        </template>
+                                                        <template for:each={feedback.emptyRatingList} for:item="star">
+                                                            <span key={star} class="star"></span>
+                                                        </template>                          
+                                                    </div>
+                                                    <lightning-avatar slot="media"  fallback-icon-name="standard:person_account" >                                
+                                                    </lightning-avatar>
+                                                    <ul  class="slds-list_horizontal slds-has-dividers_right">
+                                                        <li key={feedback.recordId} class="slds-item">
+                                                            {feedback.Comments}
+                                                        </li>
+                                                    </ul>
+                                                </lightning-tile>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>    
+                        <br> 
+                        <lightning-button label="Write Review"  data-key={hospital.recordId} 
+                            onclick={addFeedback}>
+                        </lightning-button>
+                        <br>  <br>  
+                        <div if:true={hospital.showNewReview}>   
+                            <fieldset class="rate">
+                                <lightning-formatted-text value="Rating:">
+                                </lightning-formatted-text>
+                                 
+                                <br>
+                               
+                               <template for:each={ratingOptions} for:item="ratingOption" >
+                                
+                                    <input type="radio" key={ratingOption.value}
+                                    id={ratingOption.label} name="rating" value={ratingOption.value}
+                                    onclick={handleRatingChange}  />
+                                    <label key={ratingOption.label} for={ratingOption.label}
+                                    title={ratingOption.title}>                                
+                                    </label>
+                                </template>
+                                
+                            </fieldset>     
+                                                        
+                            <br>                            
+                            <lightning-input type="text" label="Review:"
+                             placeholder="type here..." onchange={handleReviewChange}
+                             value={reviewComments}  required></lightning-input>                                            
+                            <br> 
+                            <center>
+                                <lightning-button variant="neutral" label="Cancel" 
+                                    onclick={cancelFeedback} class="slds-m-left_x-small">
+                                </lightning-button>
+
+                                <lightning-button variant="brand" label="Save" data-key={hospital.recordId}
+                                    onclick={saveFeedback} class="slds-m-left_x-small">
+                                </lightning-button>
+                            </center>                                        
+                        </div>  
+                    </lightning-tab>
+                </lightning-tabset>
+            </lightning-accordion-section>       
+        </template> 
+        
+    </lightning-accordion>
+</template>

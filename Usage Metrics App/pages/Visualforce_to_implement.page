@@ -1,0 +1,94 @@
+<apex:page standardController="Contact" showHeader="false" sidebar="false" docType="html-5.0" standardstylesheets="false" lightningStylesheets="true" id="pgId">
+    
+    <apex:slds />
+    
+    <html>
+        <head>
+            <meta charset="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            
+            <apex:includescript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></apex:includescript>
+            
+            
+            <script>
+            
+                function saveAction(){
+                    
+                    var contLastName = document.getElementById('pgId:frmId:blockId:lastNameId').value;
+                    console.log('last name---->'+contLastName);
+                    
+                    if(contLastName == null || contLastName == 'undefined' || contLastName == ''){
+                        alert('Contact last name is required.'); 
+                    } else {
+                        alert('Contact is inserted successfully.');
+                        location.reload();
+                    }
+                }
+            
+            </script>
+            
+        </head>
+        <style>
+            .container{
+            /*margin-top:100px !important;*/
+            }
+            
+            .form-row{
+            margin-bottom: 20px;
+            }
+            .form-group.required .control-label:after{
+            content: "*";
+            color: #d74c3b;
+            }
+        </style>
+        <apex:form id="frmId" styleClass="form">
+            <apex:pageMessages />
+            
+                    
+                <div class="container" id="containerId">
+                    
+
+                    
+                    <h3 class="slds-section-title--divider">AutoComplete Example</h3>
+                    
+                    <div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+
+                    
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="nameId">Contact First Name:</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField value="{!Contact.FirstName}" styleClass="slds-input" id="firstNameId"/>
+                            </div>
+                        </div>
+                    
+                    
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="nameId">Contact Last Name:</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField value="{!Contact.LastName}" styleClass="slds-input" id="lastNameId"/>
+                            </div>
+                        </div>
+                    
+                    
+                        <div class="slds-form-element">
+                            <c:AutoComplete returnValue="{!Contact.AccountId}" for="accountLookup" 
+                                            LabelStyleClass="slds-form-element__label"
+                                            sObject="Account" label="Name" value="Id" 
+                                            ComponentLabel="Account Name:"
+                                            details="Type" 
+                                            whereClause="" limitClause="15" id="autoCompleteId" compFieldId="autoCompleteId">
+                                
+                            </c:AutoComplete>
+                            <div class="slds-form-element__control">
+                                <apex:input id="accountLookup" styleClass="slds-input" />
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            
+            
+        </apex:form>
+    </html>
+</apex:page>

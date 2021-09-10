@@ -1,0 +1,51 @@
+<apex:page >
+<head>
+
+        <apex:stylesheet value="{!URLFOR($Resource.SLDS0103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+        <script src="{!URLFOR($Resource.aljs_jQuery, '/jquery.aljs-init.min.js')}"></script>
+        <script src="{!URLFOR($Resource.aljs_jQuery, '/jquery.aljs-datepicker.min.js')}"></script>
+
+    </head>
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ 
+<div class="slds">
+ <div class="slds-form-element"> 
+  <div class="slds-form-element__control" style="width:200px;">
+   <div class="slds-input-has-icon slds-input-has-icon--right">
+   
+    <svg aria-hidden="true" class="slds-input__icon slds-icon-text-default">
+    
+     <use xlink:href="{!URLFOR($Resource.SLDS0103, '/assets/icons/utility-sprite/svg/symbols.svg#event')}"></use>
+    </svg> 
+     <input id="date" class="slds-input" type="text" placeholder="Pick a Date" label="Date Picker Label"/>
+   </div>
+  </div>
+ </div>
+<!--<span id="SelectedDate"></span> -->
+</div>
+ 
+<script>
+var j$ = jQuery.noConflict();
+       
+j$.aljsInit({
+  assetsLocation: '{!URLFOR($Resource.SLDS0103)}', //SLDS Static Resource Path
+  scoped: true
+});
+   
+j$(document).ready(function() {
+ 
+//Initializing Datepicker with options To The SLDS Input on document ready.
+ 
+ j$('#date').datepicker({
+    initDate: moment(), //Today Date
+    format: 'YYYY/MM/DD', //Date Format Of Datepicker Input Field
+    onChange: function(datepicker) {
+    j$('#SelectedDate').html('Selected Date: <strong>'+moment(datepicker.selectedFullDate._d).format('YYYY/MM/DD')+'</strong>');
+   }
+  });
+});
+</script>
+  </html>
+</apex:page>
